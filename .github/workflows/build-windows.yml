@@ -25,7 +25,7 @@ jobs:
           version: '6.8.0'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_msvc2019_64'
+          arch: 'win64_msvc2022_64'
           modules: 'qt5compat qtimageformats'
 
       - name: Setup MSVC Developer Command Prompt
@@ -51,4 +51,3 @@ jobs:
           path: |
             build/launcher/prismlauncher.exe
             build/launcher/*.dll
-
