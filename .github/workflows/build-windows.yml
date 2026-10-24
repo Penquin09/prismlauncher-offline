@@ -1,3 +1,4 @@
+
 name: Build Windows Executable
 
 on:
@@ -31,12 +32,17 @@ jobs:
       - name: Setup MSVC Developer Command Prompt
         uses: ilammy/msvc-dev-cmd@v1
 
+      - name: Clone and Bootstrap vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          cd vcpkg
+          .\bootstrap-vcpkg.bat
+          cd ..
+
       - name: Configure CMake with vcpkg
-        shell: cmd
-        run: cmake -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="%GITHUB_WORKSPACE%/vcpkg/scripts/buildsystems/vcpkg.cmake" -DENABLE_LTO=OFF -DLauncher_BUILD_FRAMEWORK=OFF
+        run: cmake -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="$env:GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake" -DENABLE_LTO=OFF -DLauncher_BUILD_FRAMEWORK=OFF
 
       - name: Build Project
-        shell: cmd
         run: cmake --build build --config Release
 
       - name: Upload Windows Artifact
