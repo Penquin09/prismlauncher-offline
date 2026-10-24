@@ -26,7 +26,7 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2022_64'
-          modules: 'qt5compat qtimageformats qtnetworkauth'
+          modules: 'qt5compat qtimageformats qtnetworkauth qtsvg'
 
       - name: Setup MSVC Developer Command Prompt
         uses: ilammy/msvc-dev-cmd@v1
@@ -39,7 +39,7 @@ jobs:
           cd ..
 
       - name: Configure CMake with vcpkg
-        run: cmake -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="$env:GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake" -DENABLE_LTO=OFF -DLauncher_BUILD_FRAMEWORK=OFF
+        run: cmake -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=20 -DCMAKE_TOOLCHAIN_FILE="$env:GITHUB_WORKSPACE/vcpkg/scripts/buildsystems/vcpkg.cmake" -DENABLE_LTO=OFF -DLauncher_BUILD_FRAMEWORK=OFF
 
       - name: Build Project
         run: cmake --build build --config Release
