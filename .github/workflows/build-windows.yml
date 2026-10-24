@@ -32,16 +32,12 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure CMake with vcpkg
-        run: |
-          cmake -B build -G "Ninja" `
-            -DCMAKE_BUILD_TYPE=Release `
-            -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake `
-            -DENABLE_LTO=OFF `
-            -DLauncher_BUILD_FRAMEWORK=OFF
+        shell: cmd
+        run: cmake -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="%GITHUB_WORKSPACE%/vcpkg/scripts/buildsystems/vcpkg.cmake" -DENABLE_LTO=OFF -DLauncher_BUILD_FRAMEWORK=OFF
 
       - name: Build Project
-        run: |
-          cmake --build build --config Release
+        shell: cmd
+        run: cmake --build build --config Release
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
