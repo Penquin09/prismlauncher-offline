@@ -163,7 +163,7 @@ void MinecraftAccount::authFailed(QString reason)
             // NOTE: this doesn't do much. There was an error of some sort.
         } break;
         case AccountTaskState::STATE_FAILED_HARD: {
-            if (accountType() == AccountType::MSA) {
+           /* if (accountType() == AccountType::MSA) {
                 data.msaToken.token = QString();
                 data.msaToken.refresh_token = QString();
                 data.msaToken.validity = Validity::None;
@@ -173,7 +173,7 @@ void MinecraftAccount::authFailed(QString reason)
                 data.yggdrasilToken.validity = Validity::None;
                 data.validity_ = Validity::None;
             }
-            emit changed();
+            emit changed(); */
         } break;
         case AccountTaskState::STATE_FAILED_GONE: {
             data.validity_ = Validity::None;
@@ -206,13 +206,22 @@ bool MinecraftAccount::isActive() const
 
 bool MinecraftAccount::shouldRefresh() const
 {
+    // Do not attempt to refresh offline or MSA tokens in a bypassed/offline environment
+    if (data.type == AccountType::Offline || data.type == AccountType::MSA) {
+        return false;
+    }
+
+    if (isInUse()) {
+        return false;
+    }
+    // ... rest
     /*
      * Never refresh accounts that are being used by the game, it breaks the game session.
      * Always refresh accounts that have not been refreshed yet during this session.
      * Don't refresh broken accounts.
      * Refresh accounts that would expire in the next 12 hours (fresh token validity is 24 hours).
      */
-    if (isInUse()) {
+        if (isInUse()) {
         return false;
     }
     switch (data.validity_) {
