@@ -26,7 +26,7 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2022_64'
-          modules: 'qt5compat qtimageformats qtnetworkauth qtsvg'
+          modules: 'qt5compat qtimageformats qtnetworkauth'
 
       - name: Setup MSVC Developer Command Prompt
         uses: ilammy/msvc-dev-cmd@v1
